@@ -1,0 +1,78 @@
+<div class="container">
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email" formControlName="email">
+            <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="text-danger">
+                Email is required.
+            </div>
+        </div>
+         <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" formControlName="name">
+            <div *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched" class="text-danger">
+                Name is required.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" formControlName="password">
+            <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="text-danger">
+                Password is required.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword">
+            <div *ngIf="userForm.get('confirmPassword')?.invalid && userForm.get('confirmPassword')?.touched" class="text-danger">
+                Confirm Password is required.
+            </div>
+            <div *ngIf="userForm.get('confirmPassword')?.touched && passwordMismatchValidator(userForm)" class="text-danger">
+                Passwords do not match.
+            </div>
+            <div *ngIf="userForm.get('confirmPassword')?.touched && !passwordMismatchValidator(userForm)" class="text-success">
+                Passwords match correctly.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="dob" class="form-label">Date of Birth</label>
+            <input type="date" class="form-control" id="dob" formControlName="dob">
+            <div *ngIf="userForm.get('dob')?.invalid && userForm.get('dob')?.touched" class="text-danger">
+                Date of Birth is required.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="address" class="form-label">Current Address</label>
+            <input type="text" class="form-control" id="address" formControlName="address">
+            <div *ngIf="userForm.get('address')?.invalid && userForm.get('address')?.touched" class="text-danger">
+                Current Address is required.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="currentCompany" class="form-label">Currently Working At</label>
+            <input type="text" class="form-control" id="currentCompany" formControlName="currentCompany">
+            <div *ngIf="userForm.get('currentCompany')?.invalid && userForm.get('currentCompany')?.touched" class="text-danger">
+                Current Company is required.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="domain" class="form-label">Domain</label>
+            <select class="form-select" id="domain" formControlName="domain">
+                <option value="">Select Domain</option>
+                <option *ngFor="let domain of domains" [value]="domain">{{ domain }}</option>
+            </select>
+            <div *ngIf="userForm.get('domain')?.invalid && userForm.get('domain')?.touched" class="text-danger">
+                Domain is required.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="skills" class="form-label">Interested In</label>
+            <br>
+            <div *ngFor="let skill of skills" style="display: inline;">
+                <input type="checkbox" [value]="skill" (change)="onSkillChange($event)" />
+                {{skill}}
+            </div>
+        </div>
+        <button type="submit" [disabled]="userForm.invalid " class="btn btn-primary">Submit</button>
+    </form>
+</div>
