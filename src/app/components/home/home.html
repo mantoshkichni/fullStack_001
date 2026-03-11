@@ -1,11 +1,12 @@
-<app-header></app-header>
+<app-header (categorySelected)="onCategorySelected($event)"></app-header>
 <div class="container  mt-3">
     <div class="row d-flex">
         <div class="col col-2">
 <app-left-panel></app-left-panel>
         </div>
         <div class="col col-8  border-bottom border-primary " style="height: 90vh; overflow-y: auto;">
-            <app-card></app-card>
+            <app-card *ngFor="let article of newArticles" [title]="article.name" [content]="article.description">
+            </app-card>
         </div>
         <div class="col col-2">
             <app-right-panel></app-right-panel>

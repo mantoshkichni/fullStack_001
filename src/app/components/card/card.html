@@ -1,14 +1,11 @@
 <div class="">
     <div class="row border border-primary mb-3 p-3" *ngFor="let i of [1, 2, 3, 4, 5]">
-        <div class="col col-1">
+        <div class="col col-3">
             <img src="..." class="card-img-top" alt="...">
         </div>
         <div class="col col-4 card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s.
-                Some quick example text to build on the card title and make up the bulk of the card’s.Some quick example text to build on the card title and make up the bulk of the card’s.
-                Some quick example text to build on the card title and make up the bulk of the card’s
-                content.</p>
+            <h5 class="card-title">{{title}}</h5>
+            <p class="card-text">{{content}}</p>
             <div class="row " style="">
                 <div class="col col-2 border border-primary m-1">
                     <p>Like</p>
