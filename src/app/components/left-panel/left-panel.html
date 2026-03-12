@@ -1,8 +1,10 @@
-<div class="border border-primary" style="height: 90vh;">
-    <div class="row" *ngFor="let btn of[1,2,3,4,5]" >
-        <div class=" col-3 border border-primary m-1 rounded-circle bg-success" style="height: 50px;"></div>
-        <div class=" col-7 border border-primary m-1" style="height: 50px;">
-            <button class="btn btn-primary " style="width: 100%;">Follow</button>
+<div class="border border-primary" style="height: 90vh; overflow-y: scroll;">
+    <div class="row content" *ngFor="let user of users" >
+        <div class=" col-3  m-1  rounded-circle" >
+            <img src="{{ user.profilePhoto }}" alt="{{ user.name }}" class="rounded-circle"   style="width: 200%; height: 100%; object-fit: cover;">
+        </div>
+        <div class=" col-7  m-1" style="height: 50px;">
+            <p>{{ user.name }}</p>
         </div>
     </div>
 </div>

@@ -1,11 +1,11 @@
 <div class="">
-    <div class="row border border-primary mb-3 p-3" *ngFor="let i of [1, 2, 3, 4, 5]">
+    <div class="row border border-primary mb-3 p-3 content" >
         <div class="col col-3">
-            <img src="..." class="card-img-top" alt="...">
+            <img src={{article.urlToImage}} class="card-img-top rounded border border-warning" style="height:100%" alt="...">
         </div>
         <div class="col col-4 card-body">
-            <h5 class="card-title">{{title}}</h5>
-            <p class="card-text">{{content}}</p>
+            <h5 class="card-title">{{article.title}}</h5>
+            <p class="card-text">{{article.description}}</p>
             <div class="row " style="">
                 <div class="col col-2 border border-primary m-1">
                     <p>Like</p>

@@ -8,7 +8,5 @@ import { CommonModule } from '@angular/common';
   styleUrl: './card.css',
 })
 export class Card {
-  @Input() title!: string ;
-  @Input() content!: string;
-
+@Input() article!: any;
 }

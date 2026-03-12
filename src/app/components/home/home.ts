@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { Header } from "../header/header";
 import { Card } from "../card/card";
 import { LeftPanel } from "../left-panel/left-panel";
@@ -12,18 +12,59 @@ import { CommonModule } from '@angular/common';
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home {
+export class Home implements OnInit {
   constructor(private apiService: APIService) {}
 
   newArticles: any[] = [];
-  onCategorySelected(category: string) {
-    this.apiService.getNewsByCategory(category).subscribe(
+  users: any[] = [];
+  ngOnInit() {
+    this.apiService.getLatestNews().subscribe(
       (data: any) => {
-      this.newArticles = data.sources;
-    },
-    (error) => {
+        this.newArticles = data.articles;
+      },
+      (error) => {
+        console.error('Error fetching latest news articles:', error);
+      }
+    );
+    this.apiService.getAllUser().subscribe(
+      (data: any) => {
+        this.users = data;
+      },
+      (error) => {
+        console.error('Error fetching users:', error);
+      }
+    );
+
+    this.apiService.getHomeScreenContents().subscribe(
+      (data: any) => {
+        this.newArticles = data.articles;
+      },
+      (error) => {
+        console.error('Error fetching home screen contents:', error);
+      }
+    );
+  }
+
+  onCategorySelected(category: string) {
+    if(category=='latestNews'){
+      this.apiService.getLatestNews().subscribe(
+      (data: any) => {
+        this.newArticles = data.articles;
+      },
+      (error) => {
+        console.error('Error fetching latest news articles:', error);
+      }
+    );
+    } else {
+      this.apiService.getNewsByCategory(category).subscribe(
+        (data: any) => {
+          this.newArticles = data.articles;
+        },
+        (error) => {
       console.error('Error fetching news articles:', error);
     }
   );
+  }
+ 
   }
 }
