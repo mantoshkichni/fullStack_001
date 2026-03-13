@@ -7,5 +7,8 @@ import {CommonModule} from "@angular/common";
   styleUrl: './left-panel.css',
 })
 export class LeftPanel {
+followUser(arg0: any) {
+throw new Error('Method not implemented.');
+}
   @Input() users: any[] = [];
 }

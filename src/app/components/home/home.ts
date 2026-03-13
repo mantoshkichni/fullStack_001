@@ -13,7 +13,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './home.css',
 })
 export class Home implements OnInit {
-  constructor(private apiService: APIService) {}
+
+  constructor(private apiService: APIService) { }
+  public currentUser!: any;
 
   newArticles: any[] = [];
   users: any[] = [];
@@ -29,6 +31,7 @@ export class Home implements OnInit {
     this.apiService.getAllUser().subscribe(
       (data: any) => {
         this.users = data;
+        this.currentUser = this.users[0]; // Set the current user to the first user
       },
       (error) => {
         console.error('Error fetching users:', error);
@@ -46,25 +49,35 @@ export class Home implements OnInit {
   }
 
   onCategorySelected(category: string) {
-    if(category=='latestNews'){
+    if (category == 'latestNews') {
       this.apiService.getLatestNews().subscribe(
-      (data: any) => {
-        this.newArticles = data.articles;
-      },
-      (error) => {
-        console.error('Error fetching latest news articles:', error);
-      }
-    );
+        (data: any) => {
+          this.newArticles = data.articles;
+        },
+        (error) => {
+          console.error('Error fetching latest news articles:', error);
+        }
+      );
     } else {
       this.apiService.getNewsByCategory(category).subscribe(
         (data: any) => {
           this.newArticles = data.articles;
         },
         (error) => {
-      console.error('Error fetching news articles:', error);
+          console.error('Error fetching news articles:', error);
+        }
+      );
     }
-  );
+
   }
- 
+  onSearchValueChanged(searchValue: string) {
+    this.apiService.getNewsByCategory(searchValue).subscribe(
+      (data: any) => {
+        this.newArticles = data.articles;
+      },
+      (error) => {
+        console.error('Error fetching news articles:', error);
+      }
+    );
   }
 }

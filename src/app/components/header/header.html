@@ -1,11 +1,15 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom border-primary bg-primary-subtle text-primary-emphasis">
+<nav
+  class="navbar navbar-expand-lg bg-body-tertiary border-bottom border-primary bg-primary-subtle text-primary-emphasis">
   <div class="container-fluid">
-    <a class="navbar-brand fw-1  border border-success border border-5 rounded-circle bg-light d-flex justify-content-center align-items-center navbar-icon" style="width: 50px; height :50px" href="#">BP</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand fw-1  border border-success border border-5 rounded-circle bg-light d-flex justify-content-center align-items-center navbar-icon"
+      style="width: 50px; height :50px" href="#">BP</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
         <li class="nav-item border border-5 border-primary rounded-pill m-1">
           <button class="nav-link" (click)="selectCategory('business')">Business</button>
         </li>
@@ -13,40 +17,50 @@
           <button class="nav-link" (click)="selectCategory('entertainment')">Entertainment</button>
         </li>
         <li class="nav-item border border-5 border-primary rounded-pill m-1">
-          <button class="nav-link "  (click)="selectCategory('general')">
+          <button class="nav-link " (click)="selectCategory('general')">
             General
           </button>
         </li>
         <li class="nav-item border border-5 border-primary rounded-pill m-1">
-          <button class="nav-link "  (click)="selectCategory('health')">
+          <button class="nav-link " (click)="selectCategory('health')">
             Health
           </button>
         </li>
-         <li class="nav-item border border-5 border-primary rounded-pill m-1">
-          <button class="nav-link "  (click)="selectCategory('science')">
+        <li class="nav-item border border-5 border-primary rounded-pill m-1">
+          <button class="nav-link " (click)="selectCategory('science')">
             Science
           </button>
         </li>
-         <li class="nav-item border border-5 border-primary rounded-pill m-1">
-          <button class="nav-link "  (click)="selectCategory('sports')">
+        <li class="nav-item border border-5 border-primary rounded-pill m-1">
+          <button class="nav-link " (click)="selectCategory('sports')">
             Sports
           </button>
         </li>
-         <li class="nav-item border border-5 border-primary rounded-pill m-1">
-          <button class="nav-link "  (click)="selectCategory('technology')">
+        <li class="nav-item border border-5 border-primary rounded-pill m-1">
+          <button class="nav-link " (click)="selectCategory('technology')">
             Technology
           </button>
         </li>
-         <li class="nav-item border border-5 border-primary rounded-pill m-1">
-          <button class="nav-link "  (click)="selectCategory('latestNews')">
+        <li class="nav-item border border-5 border-primary rounded-pill m-1">
+          <button class="nav-link " (click)="selectCategory('latestNews')">
             Latest News
+          </button>
+        </li>
+        <li class="nav-item border border-5 border-primary rounded-pill m-1">
+          <button type="button" class="btn position-relative nav-link">
+            Notification
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              99+
+              <span class="visually-hidden">unread messages</span>
+            </span>
           </button>
         </li>
       </ul>
       <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <input class="form-control me-2" [(ngModel)]="searchValue" name="search" type="text" placeholder="Search"
+          aria-label="Search" />
+        <button class="btn btn-outline-success" (click)="getSearchResults()">Search</button>
       </form>
-    </div> 
+    </div>
   </div>
 </nav>

@@ -1,0 +1,33 @@
+<-------------------------------User Request------------------------------>
+{ 
+    "name": "Tia Runolfsdottir",
+    "email": "jermainebeahan@gmail.com",
+    "password": "Tia",
+    "dob": "1991-11-23T20:48:36.156Z",
+    "address": "Nashua",
+    "currentCompany": "Kuhn, Auer and Dooley",
+    "skills": [
+      "Web",
+      "Coordinator"
+    ],
+    "profilePhoto": "https://avatars.githubusercontent.com/u/99621340"
+  },
+
+  <--------------------------------user Response------------------------->
+  {
+        "DOB": null,
+        "address": "Nashua",
+        "currentCompany": "Kuhn, Auer and Dooley",
+        "email": "jermainebeahan@gmail.com",
+        "followers": [],
+        "following": [],
+        "name": "Tia Runolfsdottir",
+        "password": "Tia",
+        "posts": [],
+        "profilePhoto": "https://avatars.githubusercontent.com/u/99621340",
+        "skills": [
+            "Web",
+            "Coordinator"
+        ],
+        "userId": 1
+    },
