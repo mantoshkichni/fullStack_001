@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import {CommonModule} from "@angular/common";
+import { CommonModule } from "@angular/common";
+import { APIService } from '../../service/apiservice';
 @Component({
   selector: 'app-left-panel',
   imports: [CommonModule],
@@ -7,8 +8,12 @@ import {CommonModule} from "@angular/common";
   styleUrl: './left-panel.css',
 })
 export class LeftPanel {
-followUser(arg0: any) {
-throw new Error('Method not implemented.');
-}
+  constructor(private apiService:APIService){}
+  followUser(userId: any) {
+    this.apiService.followUser(1,userId).subscribe(
+      (data)=>{console.log('Followed user successfully');},
+      (error)=>{console.error('Error following user:', error);}
+    )
+  }
   @Input() users: any[] = [];
 }

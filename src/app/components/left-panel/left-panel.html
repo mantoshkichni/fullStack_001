@@ -1,5 +1,5 @@
-<div class="border border-primary" style="height: 90vh; overflow-y: scroll;">
-    <div class="row content" *ngFor="let user of users" >
+<div class="border border-primary " style="height: 90vh; overflow-y: scroll;">
+    <div class="row content p-1 border border-warning m-2 bg-primary-subtle text-primary-emphasis" *ngFor="let user of users" >
         <div class=" col-3  m-1  rounded-circle" >
             <img src="{{ user.profilePhoto }}" alt="{{ user.name }}" class="rounded-circle"   style="width: 200%; height: 100%; object-fit: cover;">
         </div>

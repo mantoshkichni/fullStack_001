@@ -4,7 +4,7 @@
         <div class="col col-2">
 <app-left-panel [users]="users"></app-left-panel>
         </div>
-        <div class="col col-8  border-bottom border-primary " style="height: 90vh; overflow-y: auto;">
+        <div class="col col-8  border-bottom border-primary bg-primary-subtle text-primary-emphasis" style="height: 90vh; overflow-y: auto;">
             <app-card *ngFor="let article of newArticles" [article]="article">
             </app-card>
         </div>

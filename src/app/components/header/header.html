@@ -10,57 +10,57 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-        <li class="nav-item border border-5 border-primary rounded-pill m-1">
-          <button class="nav-link" (click)="selectCategory('business')">Business</button>
+        <li class="nav-item border border-5 border-primary rounded-pill m-1 ">
+          <button class="nav-link active" [class.active]="isactive === 'business'"
+            (click)="selectCategory('business')">Business</button>
         </li>
         <li class="nav-item border border-5 border-primary rounded-pill m-1">
-          <button class="nav-link" (click)="selectCategory('entertainment')">Entertainment</button>
+          <button class="nav-link" [class.active]="isactive === 'entertainment'"
+            (click)="selectCategory('entertainment')">Entertainment</button>
         </li>
         <li class="nav-item border border-5 border-primary rounded-pill m-1">
-          <button class="nav-link " (click)="selectCategory('general')">
-            General
-          </button>
+          <button class="nav-link" [class.active]="isactive === 'general'"
+            (click)="selectCategory('general')">General</button>
         </li>
         <li class="nav-item border border-5 border-primary rounded-pill m-1">
-          <button class="nav-link " (click)="selectCategory('health')">
-            Health
-          </button>
+          <button class="nav-link" [class.active]="isactive === 'health'"
+            (click)="selectCategory('health')">Health</button>
         </li>
         <li class="nav-item border border-5 border-primary rounded-pill m-1">
-          <button class="nav-link " (click)="selectCategory('science')">
-            Science
-          </button>
+          <button class="nav-link" [class.active]="isactive === 'science'"
+            (click)="selectCategory('science')">Science</button>
         </li>
         <li class="nav-item border border-5 border-primary rounded-pill m-1">
-          <button class="nav-link " (click)="selectCategory('sports')">
-            Sports
-          </button>
+          <button class="nav-link" [class.active]="isactive === 'sports'"
+            (click)="selectCategory('sports')">Sports</button>
         </li>
         <li class="nav-item border border-5 border-primary rounded-pill m-1">
-          <button class="nav-link " (click)="selectCategory('technology')">
-            Technology
-          </button>
+          <button class="nav-link" [class.active]="isactive === 'technology'"
+            (click)="selectCategory('technology')">Technology</button>
         </li>
         <li class="nav-item border border-5 border-primary rounded-pill m-1">
-          <button class="nav-link " (click)="selectCategory('latestNews')">
-            Latest News
-          </button>
+          <button class="nav-link" [class.active]="isactive === 'latestNews'"
+            (click)="selectCategory('latestNews')">Latest News</button>
         </li>
-        <li class="nav-item border border-5 border-primary rounded-pill m-1">
-          <button type="button" class="btn position-relative nav-link">
-            Notification
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              99+
-              <span class="visually-hidden">unread messages</span>
-            </span>
-          </button>
-        </li>
+
       </ul>
       <form class="d-flex" role="search">
         <input class="form-control me-2" [(ngModel)]="searchValue" name="search" type="text" placeholder="Search"
           aria-label="Search" />
         <button class="btn btn-outline-success" (click)="getSearchResults()">Search</button>
       </form>
+      <div class="position-relative" id="user" style=" margin-left:10px; margin-right: 10px; "
+        [title]="currentUser.name"
+        data-bs-toggle="tooltip"
+        data-bs-placement="bottom"
+        >
+        <img style="width: 50px; height: 50px;" class="border  border-5 border-primary rounded-circle position-relative"
+          src="{{ currentUser?.profilePhoto }}" alt="{{currentUser?.name}}">
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+          99+
+          <span class="visually-hidden">unread messages</span>
+        </span>
+      </div>
     </div>
   </div>
 </nav>

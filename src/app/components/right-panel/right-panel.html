@@ -1,5 +1,5 @@
 
-<div class="border border-primary  " style="height: 90vh;">
+<div class="border border-primary bg-primary-subtle text-primary-emphasis " style="height: 90vh;">
     <button type="button"
      class="btn btn-primary d-block m-1 w-75" 
      data-bs-container="body" 
@@ -11,7 +11,41 @@
 </button>
     <button class="btn btn-primary d-block m-1 w-75"> Create Post</button>
     <button class="btn btn-primary d-block m-1 w-75"> View Posts</button>
-    <button class="btn btn-primary d-block m-1 w-75"> Followers</button>
-    <button class="btn btn-primary d-block m-1 w-75"> Following</button>
+    <button type="button" class="btn btn-primary d-block m-1 w-75" data-bs-toggle="modal" data-bs-target="#FollowersModal"> Followers</button>
+    <button type="button"  class="btn btn-primary d-block m-1 w-75" data-bs-toggle="modal" data-bs-target="#FollowingModal" > Following</button>
     <button class="btn btn-primary d-block m-1 w-75"> Friends</button>
+
+</div>
+<!-- Modal -->
+<div class="modal fade " id="FollowersModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="FollowingModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="FollowingModalLabel">Following Users</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ul>
+          <li *ngFor="let user of followingUsers">{{ user.name }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade " id="FollowingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="FollowingModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="FollowingModalLabel">Following Users</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ul>
+          <li *ngFor="let user of followers">{{ user.name }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>

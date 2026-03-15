@@ -13,8 +13,10 @@ export class Header {
   @Output() searchValueChanged = new EventEmitter<string>();
   @Input() currentUser: any;
   public searchValue!: string;
+  public isactive: string='';
   selectCategory(category: string) {
     console.log('Selected category:', category);
+    this.isactive = category;
     this.categorySelected.emit(category);
   }
   getSearchResults() {

@@ -16,6 +16,7 @@ export class Home implements OnInit {
 
   constructor(private apiService: APIService) { }
   public currentUser!: any;
+  public followingUsers: any[] = [];
 
   newArticles: any[] = [];
   users: any[] = [];
@@ -30,8 +31,8 @@ export class Home implements OnInit {
     );
     this.apiService.getAllUser().subscribe(
       (data: any) => {
-        this.users = data;
-        this.currentUser = this.users[0]; // Set the current user to the first user
+        this.currentUser = data[0]; // Set the current user to the first user
+        this.users = data.filter((user: any) => user.userId !== this.currentUser.userId);
       },
       (error) => {
         console.error('Error fetching users:', error);
