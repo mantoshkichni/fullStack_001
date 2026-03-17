@@ -62,6 +62,7 @@ export class SignUp {
     if (this.userForm.valid) {
       // Handle form submission
       const userData = new User(
+        undefined,
         this.userForm.value.name!,
         this.userForm.value.email!,
         this.userForm.value.password!,

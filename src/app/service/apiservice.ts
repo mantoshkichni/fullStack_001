@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../model/UserDto';
+import { Post } from '../model/PostDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -51,6 +52,10 @@ export class APIService {
 
   getUserFollowing(userId: number) {
     return this.http.post<any[]>(`${this.apiUrl}/getUserFollowing?userId=${userId}`, {});
+  }
+
+  savePost(post:Post){
+      return this.http.post(`${this.apiUrl}/savePost`,post)
   }
 
 }

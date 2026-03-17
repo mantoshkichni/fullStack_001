@@ -4,8 +4,13 @@
         <div class="col col-2">
 <app-left-panel [users]="users"></app-left-panel>
         </div>
-        <div class="col col-8  border-bottom border-primary bg-primary-subtle text-primary-emphasis" style="height: 90vh; overflow-y: auto;">
-            <app-card *ngFor="let article of newArticles" [article]="article">
+        <div class="col col-8  border-bottom border-primary bg-primary-subtle text-primary-emphasis" style="height: 90vh; overflow-y: auto;"
+        infiniteScroll
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="50"
+      (scrolled)="onScroll()"
+        >
+            <app-card *ngFor="let article of newArticles" [article]="article" [currentUser]="currentUser">
             </app-card>
         </div>
         <div class="col col-2">

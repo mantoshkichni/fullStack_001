@@ -1,7 +1,8 @@
 <div class="">
-    <div class="row border border-primary mb-3 p-3 content" >
+    <div class="row border border-primary mb-3 p-3 content">
         <div class="col col-3">
-            <img src={{article.urlToImage}} class="card-img-top rounded border border-warning" style="height:100%" alt="...">
+            <img src={{article.urlToImage}} class="card-img-top rounded border border-warning" style="height:100%"
+                alt="...">
         </div>
         <div class="col col-4 card-body">
             <h5 class="card-title">{{article.title}}</h5>
@@ -16,11 +17,12 @@
                 <div class="col col-2 border border-primary m-1">
                     <p>Share</p>
                 </div>
-                <div class="col col-2 border border-primary m-1"><a href="/signup" class="btn btn-primary"
-                        style="width: 100%;">Repost</a></div>
+                <div class="col col-2 border border-primary m-1">
+                    <button class="btn btn-primary" style="width: 100%;" (click)="rePost(article)">Repost</button>
+                </div>
             </div>
 
         </div>
-        
+
     </div>
 </div>
