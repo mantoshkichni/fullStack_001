@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../model/UserDto';
 import { Post } from '../model/PostDTO';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -54,8 +55,8 @@ export class APIService {
     return this.http.post<any[]>(`${this.apiUrl}/getUserFollowing?userId=${userId}`, {});
   }
 
-  savePost(post:Post){
-      return this.http.post(`${this.apiUrl}/savePost`,post)
+  savePost(post:Post):Observable<PostResponse>{
+      return this.http.post<PostResponse>(`${this.apiUrl}/savePost`,post)
   }
 
 }

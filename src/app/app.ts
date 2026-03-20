@@ -3,10 +3,11 @@ import { FormControl, FormGroup,ReactiveFormsModule , Validators } from '@angula
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { User } from './model/UserDto';
+import { Toast } from "./components/toast/toast";
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule,RouterOutlet, ReactiveFormsModule],
+  imports: [CommonModule, RouterOutlet, ReactiveFormsModule, Toast],
   templateUrl: './app.html',
   styleUrls: ['./app.css'],
   standalone: true
