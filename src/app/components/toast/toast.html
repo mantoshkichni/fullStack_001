@@ -1,0 +1,18 @@
+<div class="toast-container position-fixed bottom-0 end-0 p-3" 
+     *ngIf="toastService.isVisible">
+
+  <div class="toast show" style="color: rgb(3, 3, 3); background-color: rgb(70, 183, 240);">
+    <div class="toast-header">
+      <strong class="me-auto">Notification</strong>
+      <button type="button"
+              class="btn-close"
+              (click)="toastService.hide()">
+      </button>
+    </div>
+
+    <div class="toast-body">
+      {{ toastService.toastMessage }}
+    </div>
+  </div>
+
+</div>

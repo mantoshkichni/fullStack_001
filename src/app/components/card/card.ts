@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Post } from '../../model/PostDTO';
 import { APIService } from '../../service/apiservice';
 import { User } from '../../model/UserDto';
+import { ToastService } from '../../service/toast-service';
 @Component({
   selector: 'app-card',
   imports: [CommonModule],
@@ -15,7 +16,7 @@ export class Card {
   @Input() currentUser!:any;
   
 
-  constructor(private apiService: APIService) { }
+  constructor(private apiService: APIService, private toastService:ToastService) { }
   rePost(post: any) {
     const  user:User={
     userId:this.currentUser.userId
@@ -23,7 +24,7 @@ export class Card {
     const postDto = new Post(
       undefined,
       post.title,
-      post.description.split(' ').slice(0, 200).join(' '),
+      post.description.substring(0, 200),
       post.urlToImage,
       new Date(post.publishedAt),
       post.comments,
@@ -35,9 +36,10 @@ export class Card {
     this.apiService.savePost(postDto).subscribe(
       (data)=>{
         console.log(data);
-      },
-      (error)=>{
-        console.log(error);
+        this.toastService.show(data.message)
+      },(error)=>{
+          console.log(error);
+          this.toastService.show(error.message)
       }
     );
   }
