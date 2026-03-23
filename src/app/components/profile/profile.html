@@ -1,0 +1,33 @@
+<app-header></app-header>
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-3 ">
+            <img src="{{currentUser.profilePhoto}}" alt="" srcset="" style="width: 200px; height: 200px;" class="bg-primary border rounded-circle">
+        </div>
+        <div class="col-9">
+            <div>
+                <h1>{{currentUser.name}}</h1>
+                <p>{{currentUser.currentCompany}}</p>
+            </div>
+            <div class="row">
+                <p>Intereated</p>
+                <div class="col-3" *ngFor="let skill of currentUser.skills">
+                    <p class="border border-success bg-warning p-1 ">{{skill}}</p>
+                </div>
+                <div class="row">
+                    <div class="col-3  m-1">
+                       <button class="btn btn-warning" style="width: 100%; ">Following</button>
+                    </div>
+                    <div class="col-3  m-1">
+                        <button class="btn btn-primary" style="width: 100%; ">Followers</button>
+                    </div>
+                    <div class="col-3 border   m-1">
+                        <button class="btn btn-info" style="width: 100%; " (click)="navigateToMessage(currentUser)">Message</button>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>

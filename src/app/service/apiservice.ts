@@ -4,10 +4,21 @@ import { User } from '../model/UserDto';
 import { Post } from '../model/PostDTO';
 import { Observable } from 'rxjs';
 
+interface PostResponse {
+  message: string;
+  stsusCode: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class APIService {
+
+  private profileUser: any;
+  private following:any[]=[];
+  private followers:any[]=[];
+  private friends:any[]=[];
+  private currentUser:any;
 
   private apiUrl = 'http://localhost:8080/api';
   private newsURL = "https://newsapi.org/v2/top-headlines/sources?"
@@ -15,6 +26,8 @@ export class APIService {
   private latestNews = 'https://newsapi.org/v2/top-headlines?country=us';
   private homeScreenURL = "https://newsapi.org/v2/everything?q=india&from=2026-03-11&sortBy=publishedAt&apiKey=fa3eaa3dc2b947e7958de87e8ef715d8";
   constructor(private http: HttpClient) { }
+
+  
 
   saveUser(data: User) {
     return this.http.post(`${this.apiUrl}/saveUser`, data);
@@ -55,8 +68,41 @@ export class APIService {
     return this.http.post<any[]>(`${this.apiUrl}/getUserFollowing?userId=${userId}`, {});
   }
 
-  savePost(post:Post):Observable<PostResponse>{
-      return this.http.post<PostResponse>(`${this.apiUrl}/savePost`,post)
+  savePost(post: Post): Observable<PostResponse> {
+    return this.http.post<PostResponse>(`${this.apiUrl}/savePost`, post)
+  }
+
+  setProfileUser(user: any) {
+    this.profileUser=user;
+  }
+
+  getProfileUser(): any {
+    return this.profileUser;
+  }
+
+  setFollowing(data:any[]){
+    this.following=data;
+  }
+  getFollowing():any[]{
+    return this.following;
+  }
+  setFollowers(data:any[]){
+    this.followers=data;
+  }
+  getFollowers():any[]{
+    return this.followers;
+  }
+  setCurrentUser(user:any){
+    this.currentUser=user;
+  }
+  getCurrentUser(){
+    return this.currentUser;
+  }
+  setFriends(friends:any[]){
+    this.friends=friends;
+  }
+  getFriends():any[]{
+    return this.friends;
   }
 
 }
