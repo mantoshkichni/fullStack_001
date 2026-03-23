@@ -1,0 +1,41 @@
+<app-header></app-header>
+<div class="container border border-primary mt-2" style="height: 90vh; ">
+    <div class="container border border-warning mt-1" style="height: 50px;">
+        <div class="row">
+            <div class="col-1 mt-1 ">
+                <img *ngIf="selectedUser?.profilePhoto" src="{{selectedUser.profilePhoto}}" alt=""  style="height: 45px" class="border border-info border-3 rounded-circle mb-4">
+            </div>
+            <div class="col-2 m-1 ">
+ <p *ngIf="selectedUser?.name" class="fs-5">{{selectedUser.name}}</p>
+            </div>
+            <div class="col-2   " style="margin-left: 40%;">
+                <button class="btn btn-primary float-end mt-1" >Video Call</button>
+            </div>
+            <div class="col-2">
+                <button class="btn btn-success float-start mt-1">Voice Call</button>
+            </div>
+
+        </div>
+          
+    </div>
+    <div class="message border border-info border-4 mt-1" style="height:85%; overflow-y: auto; padding: 10px;">
+        <div *ngFor="let message of messageList" class="message-item">
+            <p class="mb-2 float-end">{{message}}</p>
+        </div>
+        <div *ngFor="let message of receiveMessage" class="message-item">
+            <p class="mb-2 float-start">{{message}}</p>
+        </div>
+    </div>
+
+    <div class="row sendMessage border border-info mt-2">
+        <div class="col-9">
+            <form class="border border-info border-4">
+                <input class="form-control" type="text" [(ngModel)]="message" value={{message}} name="message" >
+            </form>
+        </div>
+        <div class="col-1">
+            <button class="btn btn-primary" (click)="sendMessage()">Send</button>
+        </div>
+
+    </div>
+</div>

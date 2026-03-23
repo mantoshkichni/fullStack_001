@@ -1,27 +1,25 @@
-
 <div class="border border-primary bg-primary-subtle text-primary-emphasis " style="height: 90vh;">
-    <button type="button"
-     class="btn btn-primary d-block m-1 w-75" 
-     data-bs-container="body" 
-     data-bs-toggle="popover" 
-     data-bs-placement="bottom" 
-     title="Popover Title"
-     data-bs-content="Bottom popover">
-  Current User
-</button>
-    <button class="btn btn-primary d-block m-1 w-75"> Create Post</button>
-    <button class="btn btn-primary d-block m-1 w-75"> View Posts</button>
-    <button type="button" class="btn btn-primary d-block m-1 w-75" data-bs-toggle="modal" data-bs-target="#FollowersModal"> Followers</button>
-    <button type="button"  class="btn btn-primary d-block m-1 w-75" data-bs-toggle="modal" data-bs-target="#FollowingModal" > Following</button>
-    <button class="btn btn-primary d-block m-1 w-75"> Friends</button>
+  <button type="button" class="btn btn-primary d-block m-1 w-75" data-bs-container="body" data-bs-toggle="popover"
+    data-bs-placement="bottom" title="Popover Title" data-bs-content="Bottom popover">
+    Current User
+  </button>
+  <button class="btn btn-primary d-block m-1 w-75"> Create Post</button>
+  <button class="btn btn-primary d-block m-1 w-75"> View Posts</button>
+  <button type="button" class="btn btn-primary d-block m-1 w-75" data-bs-toggle="modal"
+    data-bs-target="#FollowersModal"> Followers</button>
+  <button type="button" class="btn btn-primary d-block m-1 w-75" data-bs-toggle="modal"
+    data-bs-target="#FollowingModal"> Following</button>
+  <button type="button" class="btn btn-primary d-block m-1 w-75" data-bs-toggle="modal" data-bs-target="#FriendsModal">
+    Friends</button>
 
 </div>
-<!-- Modal -->
-<div class="modal fade " id="FollowersModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="FollowingModalLabel" aria-hidden="true">
+<!--Follower Modal -->
+<div class="modal fade " id="FollowersModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="FollowingModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="FollowingModalLabel">Following Users</h1>
+        <h1 class="modal-title fs-5" id="FollowingModalLabel">Friends Users</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -33,8 +31,9 @@
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade " id="FollowingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="FollowingModalLabel" aria-hidden="true">
+<!--Following Modal -->
+<div class="modal fade " id="FollowingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="FollowingModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -45,6 +44,37 @@
         <ul>
           <li *ngFor="let user of followers">{{ user.name }}</li>
         </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Friends Modal -->
+<div class="modal fade " id="FriendsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="FollowingModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="FollowingModalLabel">Friends Users</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-3 bg-primary-subtle text-primary-emphasis">
+        <div class="row mb-1 border pt-2 border-primary content" *ngFor="let user of friends" >
+          <div class="col-2 ">
+            <img src="{{user.profilePhoto}}" class="border border-warning rounded-circle" style="width: 50px; height: 50px;" alt="" srcset="">
+          </div>
+          <div class="col-3">
+            <p>{{user.name}}</p>
+          </div>
+          <div class="col-3">
+            <button class="btn btn-primary" data-bs-dismiss="modal" (click)="navigateToProfile(user)">Profile</button>
+          </div>
+          <div class="col-3">
+            <button class="btn btn-primary" data-bs-dismiss="modal" (click)="navigateToMesagePage(user)">Message</button>
+          </div>
+        </div>
+        <!-- <ul>
+          <li *ngFor="let user of friends">{{ user.name }}</li>
+        </ul> -->
       </div>
     </div>
   </div>

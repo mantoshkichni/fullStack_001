@@ -1,0 +1,23 @@
+.message{
+    overflow-y: scroll;
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+}
+
+.message-item {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.message-item p {
+    display: block;
+    background-color: #e9ecef;
+    padding: 8px 12px;
+    border-radius: 8px;
+    word-wrap: break-word;
+    margin: 0;
+}
