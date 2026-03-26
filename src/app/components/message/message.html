@@ -20,11 +20,14 @@
     </div>
     <div class="message border border-info border-4 mt-1" style="height:85%; overflow-y: auto; padding: 10px;">
         <div *ngFor="let message of messageList" class="message-item">
-            <p class="mb-2 float-end">{{message}}</p>
+            <div [ngClass]="{
+      'text-end': message.senderId === currentUser.userId,
+      'text-start': message.senderId !== currentUser.userId
+    }">
+      {{message.content}}
+    </div>
         </div>
-        <div *ngFor="let message of receiveMessage" class="message-item">
-            <p class="mb-2 float-start">{{message}}</p>
-        </div>
+        
     </div>
 
     <div class="row sendMessage border border-info mt-2">

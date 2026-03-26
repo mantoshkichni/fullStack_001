@@ -105,4 +105,10 @@ export class APIService {
     return this.friends;
   }
 
+  getChat(user1Id: number, user2Id: number) {
+  return this.http.get<any[]>(
+    `http://localhost:8080/api/chat/${user1Id}/${user2Id}`
+  );
+}
+
 }
