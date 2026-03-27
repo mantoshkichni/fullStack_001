@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../model/UserDto';
 import { Post } from '../model/PostDTO';
 import { Observable } from 'rxjs';
+import { LoginResponse } from '../model/loginResponse';
 
 interface PostResponse {
   message: string;
@@ -34,7 +35,7 @@ export class APIService {
   }
 
   userLogin(data: any) {
-    return this.http.post(`${this.apiUrl}/login`, data);
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, data);
   }
 
   getNewsByCategory(category: string) {

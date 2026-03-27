@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { FormArray, FormControl, FormGroup, FormsModule, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { User } from '../../model/UserDto';
 import { APIService } from '../../service/apiservice';
+import { SharedService } from '../../service/shared.service';
+import { faker } from '@faker-js/faker';
 @Component({
   selector: 'app-sign-up',
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
@@ -18,8 +20,8 @@ export class SignUp {
     password: new FormControl('', Validators.required),
     confirmPassword: new FormControl('', Validators.required),
     dob: new FormControl('', Validators.required),
-    address: new FormControl('', Validators.required),
     currentCompany: new FormControl('', Validators.required),
+    address: new FormControl('', Validators.required),
     domain: new FormControl('', Validators.required),
     skills: new FormArray([])
   }, { validators: this.passwordMismatchValidator });
@@ -56,7 +58,7 @@ export class SignUp {
     "Machine Learning",
   ];
 
-  constructor(private router: Router, private apiService: APIService) { }
+  constructor(private router: Router, private apiService: APIService,private sharedService:SharedService) { }
 
    onSubmit() {
     if (this.userForm.valid) {
@@ -67,14 +69,18 @@ export class SignUp {
         this.userForm.value.email!,
         this.userForm.value.password!,
         new Date(this.userForm.value.dob!),
-        this.userForm.value.address!,
         this.userForm.value.currentCompany!,
+        this.userForm.value.address!,
         this.userForm.value.domain!,
+        faker.image.avatar(),
         this.userForm.value.skills!
       )
         // Simulate API call
          this.apiService.saveUser(userData).subscribe({
-           next: () => this.router.navigate(['/home']),
+           next: () => {
+            this.router.navigate(['/home'])
+            this.sharedService.setCurrentUser(userData);
+          },
            error: (error) => alert('Error saving user: ' + error)
          });
       console.log(userData);
