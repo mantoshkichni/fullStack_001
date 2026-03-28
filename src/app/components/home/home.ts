@@ -39,8 +39,8 @@ export class Home implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.apiService.getAllUser().subscribe(
         (data: any) => {
-          this.currentUser = data[0]; // Set the current user to the first user
-          this.sharedService.setCurrentUser(data[0]); // Share globally via SharedService
+          this.currentUser = this.sharedService.getCurrentUser(); // Set the current user to the first user
+          // this.sharedService.setCurrentUser(data[0]); // Share globally via SharedService
           this.users = data.filter((user: any) => user.userId !== this.currentUser.userId);
         },
         (error) => {

@@ -4,6 +4,9 @@ import { Header } from "../header/header";
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { FormsModule } from "@angular/forms";
+import { ChatService } from '../../service/chat-service';
+import { APIService } from '../../service/apiservice';
+import { ChatMessage } from '../../model/ChatMessage';
 
 
 @Component({
@@ -14,21 +17,20 @@ import { FormsModule } from "@angular/forms";
 })
 export class Message implements OnInit, OnDestroy {
 
-  constructor(private sharedService:SharedService){}
-  public selectedUser:any;
-  public currentUser:any;
+  constructor(private sharedService: SharedService, private chatService: ChatService, private apiService: APIService) { }
+  public selectedUser: any;
+  public currentUser: any;
   private subscriptions: Subscription[] = [];
-  messageList:string[]=["Hello","How are you?","I am fine😊","Hey👋", "I am fine😊","Had dinner?"];
-  receiveMessage:string[]=["Hey👋", "I am fine😊","Had dinner?","Hey👋", "I am fine😊","Had dinner?","Hey👋", "I am fine😊","Had dinner?"]
-  message!:string;
+  messageList: ChatMessage[] = []
+  message!: string;
 
   ngOnInit(): void {
     this.subscriptions.push(
       this.sharedService.getProfileUser().subscribe(
-        (data)=>{
+        (data) => {
           console.log("Selected User==>", data)
-          this.selectedUser=data;
-        },(error)=>{
+          this.selectedUser = data;
+        }, (error) => {
           console.log(error);
         }
       )
@@ -36,14 +38,25 @@ export class Message implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       this.sharedService.getCurrentUser().subscribe(
-        (data)=>{
-          console.log("currentUser==>",data);
-          this.currentUser=data;
-        },(error)=>{
+        (data) => {
+          console.log("currentUser==>", data);
+          this.currentUser = data;
+        }, (error) => {
           console.log(error);
         }
       )
     );
+    this.chatService.connect(this.currentUser.userId);
+
+    // load old messages
+    this.apiService.getChat(this.currentUser.userId, this.selectedUser.userId)
+      .subscribe(data => {
+        this.chatService.setMessages(data);
+      });
+
+    this.chatService.messages$.subscribe(data => {
+      this.messageList = data;
+    });
   }
 
   ngOnDestroy(): void {
@@ -51,9 +64,15 @@ export class Message implements OnInit, OnDestroy {
   }
 
   sendMessage() {
-    // if (this.message && this.message.trim()) {
-      this.messageList.push(this.message);
-      this.message = "";
-    // }
+    if (!this.message?.trim()) return;
+
+    const msg = {
+      senderId: this.currentUser.userId,
+      receiverId: this.selectedUser.userId,
+      content: this.message
+    };
+    this.messageList.push(msg);
+    this.chatService.sendMessage(msg);
+    this.message = '';
   }
 }

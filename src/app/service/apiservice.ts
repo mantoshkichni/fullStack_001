@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../model/UserDto';
 import { Post } from '../model/PostDTO';
 import { Observable } from 'rxjs';
+import { LoginResponse } from '../model/loginResponse';
 
 interface PostResponse {
   message: string;
@@ -34,7 +35,7 @@ export class APIService {
   }
 
   userLogin(data: any) {
-    return this.http.post(`${this.apiUrl}/login`, data);
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, data);
   }
 
   getNewsByCategory(category: string) {
@@ -104,5 +105,11 @@ export class APIService {
   getFriends():any[]{
     return this.friends;
   }
+
+  getChat(user1Id: number, user2Id: number) {
+  return this.http.get<any[]>(
+    `http://localhost:8080/api/chat/${user1Id}/${user2Id}`
+  );
+}
 
 }
