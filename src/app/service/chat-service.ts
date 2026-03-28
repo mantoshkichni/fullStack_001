@@ -47,3 +47,4 @@ export class ChatService {
     this.messagesSubject.next(this.messages);
   }
 }
+
