@@ -1,0 +1,146 @@
+================================================================================
+BACKEND FIXES FOR PRIVATE CHAT - Copy these files into your Spring Boot project
+================================================================================
+
+FILE 1: WebSocketConfig.java
+Location: src/main/java/com/yourcompany/config/WebSocketConfig.java
+
+---START---
+package com.yourcompany.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.messaging.simp.config.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+
+@Configuration
+@EnableWebSocketMessageBroker
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry config) {
+        config.enableSimpleBroker("/queue", "/topic");
+        config.setApplicationDestinationPrefixes("/app");
+        config.setUserDestinationPrefix("/user");  // 🔥 MUST: for /user/queue/* routing
+    }
+
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/chat")
+                .setAllowedOriginPatterns("http://localhost:*", "http://127.0.0.1:*")
+                .withSockJS();
+    }
+}
+---END---
+
+
+FILE 2: CorsConfig.java
+Location: src/main/java/com/yourcompany/config/CorsConfig.java
+
+---START---
+package com.yourcompany.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class CorsConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:4200", "http://127.0.0.1:4200")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(3600);
+    }
+}
+---END---
+
+
+FILE 3: ChatController.java
+Location: src/main/java/com/yourcompany/controller/ChatController.java
+
+---START---
+package com.yourcompany.controller;
+
+import com.yourcompany.model.ChatMessage;
+import com.yourcompany.repository.ChatRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+
+import java.time.LocalDateTime;
+
+@Controller
+public class ChatController {
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
+    @Autowired
+    private ChatRepository chatRepository;
+
+    @MessageMapping("/sendMessage")
+    public void sendMessage(ChatMessage message, Authentication authentication) throws Exception {
+        // Set sender and timestamp
+        if (authentication != null) {
+            message.setSenderId(authentication.getName());  // set from authenticated user
+        }
+        message.setTimestamp(LocalDateTime.now());
+
+        // 💾 Save to database
+        chatRepository.save(message);
+        System.out.println("✅ Message saved to DB: " + message);
+
+        // 🎯 Send ONLY to receiver (private message)
+        // Use receiver username/ID as the key
+        String receiverUsername = message.getReceiverId();  // or message.getReceiverUsername()
+        messagingTemplate.convertAndSendToUser(
+                receiverUsername,
+                "/queue/messages",
+                message
+        );
+        System.out.println("📤 Message sent to receiver: " + receiverUsername);
+
+        // Optional: also echo back to sender so they see it in their chat
+        messagingTemplate.convertAndSendToUser(
+                authentication != null ? authentication.getName() : "anonymous",
+                "/queue/messages",
+                message
+        );
+    }
+}
+---END---
+
+KEY CHANGES FROM YOUR ORIGINAL:
+❌ REMOVED: @SendTo("/topic/public") - this broadcasts to ALL users
+✅ ADDED: authentication parameter to get sender name
+✅ ADDED: logging so you can see what's happening
+✅ ADDED: echo back to sender so they see their own message
+✅ CHANGED: Use String receiverId (username) not numeric ID for convertAndSendToUser
+
+IMPORTANT NOTES:
+1. Replace "com.yourcompany" with your actual package name
+2. If you don't have Spring Security, replace:
+   - Authentication parameter with: @org.springframework.messaging.handler.annotation.Header("simpUser") String username
+   - OR manually pass receiverUsername from frontend in the ChatMessage object
+3. Ensure ChatMessage.java has these fields:
+   - senderId (String or Long)
+   - receiverId (String or Long) - must match the STOMP principal name
+   - timestamp (LocalDateTime)
+4. Run: mvn clean install / gradle build after adding these files
+
+TEST CHECKLIST:
+1. ✅ Frontend connects (check browser console for "[STOMP] onConnect")
+2. ✅ Send message → check backend logs for "Message saved to DB"
+3. ✅ Check DB that message is saved
+4. ✅ Receiver should see message in their chat box within seconds
+5. If not: check backend logs for "Message sent to receiver" and verify receiver is connected
+
+================================================================================
