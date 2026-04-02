@@ -1,18 +1,61 @@
-<div class="border border-primary bg-primary-subtle text-primary-emphasis " style="height: 90vh;">
-  <button type="button" class="btn btn-primary d-block m-1 w-75" data-bs-container="body" data-bs-toggle="popover"
-    data-bs-placement="bottom" title="Popover Title" data-bs-content="Bottom popover">
-    Current User
-  </button>
-  <button class="btn btn-primary d-block m-1 w-75"> Create Post</button>
-  <button class="btn btn-primary d-block m-1 w-75"> View Posts</button>
-  <button type="button" class="btn btn-primary d-block m-1 w-75" data-bs-toggle="modal"
-    data-bs-target="#FollowersModal"> Followers</button>
-  <button type="button" class="btn btn-primary d-block m-1 w-75" data-bs-toggle="modal"
-    data-bs-target="#FollowingModal"> Following</button>
-  <button type="button" class="btn btn-primary d-block m-1 w-75" data-bs-toggle="modal" data-bs-target="#FriendsModal">
-    Friends</button>
-    <button type="button" class="btn btn-primary d-block m-1 w-75" data-bs-toggle="modal" data-bs-target="#QuickMessagesModal">
-    Quick Messages</button>
+<div class="border border-primary bg-primary-subtle text-primary-emphasis d-flex flex-column" style="height: 90vh;">
+  <!-- Top Buttons Section -->
+  <div class="p-2 border-bottom border-primary">
+    <button type="button" class="btn btn-primary d-block m-1 w-75" data-bs-container="body" data-bs-toggle="popover"
+      data-bs-placement="bottom" title="Popover Title" data-bs-content="Bottom popover">
+      Current User
+    </button>
+    <button class="btn btn-primary d-block m-1 w-75"> Create Post</button>
+    <button class="btn btn-primary d-block m-1 w-75"> View Posts</button>
+    <button type="button" class="btn btn-primary d-block m-1 w-75" data-bs-toggle="modal"
+      data-bs-target="#FollowersModal"> Followers</button>
+    <button type="button" class="btn btn-primary d-block m-1 w-75" data-bs-toggle="modal"
+      data-bs-target="#FollowingModal"> Following</button>
+    <button type="button" class="btn btn-primary d-block m-1 w-75" data-bs-toggle="modal"
+      data-bs-target="#FriendsModal">
+      Friends</button>
+  </div>
+
+  <!-- Messages Area (Scrollable) -->
+  <div class="flex-grow-1 overflow-y-auto p-3 bg-info" id="messagesContainer" #messagesContainer>
+    <div *ngFor="let message of quickMessages" class="message-row" [ngClass]="{
+      'message-row-sender': message.senderId === currentUser.userId,
+      'message-row-receiver': message.senderId !== currentUser.userId
+    }">
+      
+
+      <!-- Message Content -->
+      <div class="message-container">
+        <div class="message-bubble" [ngClass]="{
+          'sender': message.senderId === currentUser.userId,
+          'receiver': message.senderId !== currentUser.userId
+        }">
+          {{message.content}}
+        </div>
+        <div class="message-time" [ngClass]="{
+          'time-sender': message.senderId === currentUser.userId,
+          'time-receiver': message.senderId !== currentUser.userId
+        }">
+          {{message.timeSTamp}}
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+
+  <!-- Input Form (Fixed at Bottom) -->
+  <div class="border-top border-primary p-2 bg-light">
+    
+    <form>
+      <label for="message" class="form-label">Quick Message</label>
+      <div class="input-group">
+        <input [(ngModel)]="quickMessage" name="quickMessage" class="form-control bg-info border border-warning"
+          id="message" placeholder="Type your message...">
+        <button type="submit" class="btn btn-warning" (click)="sendQuickMessage()">Send</button>
+      </div>
+    </form>
+  </div>
 
 </div>
 <!--Follower Modal -->

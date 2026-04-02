@@ -10,7 +10,13 @@ export class ChatService {
   private messagesSubject = new BehaviorSubject<any[]>([]);
   messages$ = this.messagesSubject.asObservable();
 
-  private messages: any[] = [];
+  private connectionStatusSubject = new BehaviorSubject<boolean>(false);
+  connectionStatus$ = this.connectionStatusSubject.asObservable();
+
+  public quickMessageSubject = new BehaviorSubject<any[]>([]);
+  quickMessages$ = this.quickMessageSubject.asObservable();
+
+  private quickMessages: any[] = [];
   private pendingMessages: any[] = [];
 
   connect(userId: number) {
@@ -27,11 +33,19 @@ export class ChatService {
 
     this.stompClient.onConnect = () => {
       console.log('✅ STOMP connected');
+      this.connectionStatusSubject.next(true);
       
       this.stompClient.subscribe(`/topic/messages`, (msg) => {
         const message = JSON.parse(msg.body);
-        this.messages.push(message);
-        this.messagesSubject.next(this.messages);
+        // Add timestamp if not provided by backend
+        if (!message.timeSTamp) {
+          message.timeSTamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+        if (message.senderId != userId ) {
+          this.quickMessages.push(message);
+          this.quickMessageSubject.next([...this.quickMessages]);
+          this.messagesSubject.next(this.quickMessages);
+        }
         console.log('📨 Message received:', message);
       });
 
@@ -48,10 +62,12 @@ export class ChatService {
 
     this.stompClient.onStompError = (frame) => {
       console.error('❌ STOMP error:', frame);
+      this.connectionStatusSubject.next(false);
     };
 
     this.stompClient.onWebSocketError = (evt) => {
       console.error('❌ WebSocket error:', evt);
+      this.connectionStatusSubject.next(false);
     };
 
     this.stompClient.activate();
@@ -59,11 +75,14 @@ export class ChatService {
 
   sendMessage(message: any) {
     // add to UI instantly regardless of connection status
-    this.messages.push(message);
-    this.messagesSubject.next(this.messages);
+    if (!this.quickMessages.some(m => m === message)) { // Avoid duplicates
+      this.quickMessages.push(message);
+      this.quickMessageSubject.next([...this.quickMessages]);
+      this.messagesSubject.next(this.quickMessages);
+    }
 
     // send to backend if connected, otherwise queue
-    const isConnected = this.stompClient && (this.stompClient as any).connected === true;
+    const isConnected = this.connectionStatusSubject.value;
     if (isConnected) {
       this.stompClient.publish({
         destination: '/app/sendMessage',
@@ -77,17 +96,18 @@ export class ChatService {
   }
 
   setMessages(messages: any[]) {
-    this.messages = messages;
-    this.messagesSubject.next(this.messages);
+    this.quickMessages = messages;
+    this.messagesSubject.next(this.quickMessages);
   }
 
   isConnected(): boolean {
-    return this.stompClient && (this.stompClient as any).connected === true;
+    return this.connectionStatusSubject.value;
   }
 
   disconnect() {
-    if (this.stompClient && (this.stompClient as any).connected) {
+    if (this.stompClient) {
       this.stompClient.deactivate();
+      this.connectionStatusSubject.next(false);
     }
   }
 }
