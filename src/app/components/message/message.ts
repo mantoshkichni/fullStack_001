@@ -57,6 +57,8 @@ export class Message implements OnInit, OnDestroy {
     this.chatService.messages$.subscribe(data => {
       this.messageList = data;
     });
+
+    
   }
 
   ngOnDestroy(): void {
