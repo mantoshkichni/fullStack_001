@@ -95,6 +95,7 @@ export class RightPanel implements OnInit, OnDestroy, AfterViewChecked {
       senderId: this.currentUser.userId,
       receiverId: 0,
       content: this.quickMessage,
+      isQuickMessage: true,
       timeSTamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
     console.log('Quick Message:', quickChatMessage);
