@@ -35,7 +35,7 @@ export class ChatService {
       console.log('✅ STOMP connected');
       this.connectionStatusSubject.next(true);
       
-      this.stompClient.subscribe(`/topic/messages`, (msg) => {
+      this.stompClient.subscribe(`/topic/quickMessages`, (msg) => {
         const message = JSON.parse(msg.body);
         // Add timestamp if not provided by backend
         if (!message.timeSTamp) {
@@ -53,7 +53,7 @@ export class ChatService {
       while (this.pendingMessages.length > 0) {
         const m = this.pendingMessages.shift();
         this.stompClient.publish({
-          destination: '/app/sendMessage',
+          destination: '/app/sendQuickMessage',
           body: JSON.stringify(m)
         });
         console.log('📤 Pending message sent:', m);
@@ -85,7 +85,7 @@ export class ChatService {
     const isConnected = this.connectionStatusSubject.value;
     if (isConnected) {
       this.stompClient.publish({
-        destination: '/app/sendMessage',
+        destination: '/app/sendQuickMessage',
         body: JSON.stringify(message)
       });
       console.log('📤 Message sent:', message);
