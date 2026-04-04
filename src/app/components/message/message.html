@@ -18,14 +18,28 @@
         </div>
           
     </div>
-    <div class="message border border-info border-4 mt-1" style="height:85%; overflow-y: auto; padding: 10px;">
-        <div *ngFor="let message of messageList" class="message-item">
-            <div [ngClass]="{
-      'text-end': message.senderId === currentUser.userId,
-      'text-start': message.senderId !== currentUser.userId
+    <div class="message flex-grow-1 message-row border border-info border-4 mt-1" style="height:85%; overflow-y: auto; padding: 10px;">
+        <div *ngFor="let message of messageList" class="message-item"
+             [ngClass]="{
+      'message-row-sender': message.senderId === currentUser.userId,
+      'message-row-receiver': message.senderId !== currentUser.userId
     }">
-      {{message.content}}
-    </div>
+      <!-- Message Content -->
+      <div class="message-container">
+        <div class="message-bubble" [ngClass]="{
+          'sender': message.senderId === currentUser.userId,
+          'receiver': message.senderId !== currentUser.userId
+        }">
+          {{message.content}}
+        </div>
+        <div class="message-time" [ngClass]="{
+          'time-sender': message.senderId === currentUser.userId,
+          'time-receiver': message.senderId !== currentUser.userId
+        }">
+          {{message.timeSTamp}}
+        </div>
+      </div>
+    
         </div>
         
     </div>
